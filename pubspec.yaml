@@ -40,13 +40,22 @@ flutter:
 
 
   fonts:
-    - family: Sora
+    - family: Inter
       fonts:
-        - asset: assets/fonts/Sora-Regular.ttf
-        - asset: assets/fonts/Sora-Light.ttf
-        - asset: assets/fonts/Sora-Medium.ttf
-        - asset: assets/fonts/Sora-SemiBold.ttf
-        - asset: assets/fonts/Sora-Bold.ttf
-        - asset: assets/fonts/Sora-ExtraBold.ttf
-          style: italic
-
+        - asset: assets/fonts/Inter/Montserrat-Black.ttf
+        - asset: assets/fonts/Inter/Montserrat-BlackItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-Bold.ttf
+        - asset: assets/fonts/Inter/Montserrat-BoldItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-ExtraBold.ttf
+        - asset: assets/fonts/Inter/Montserrat-ExtraBoldItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-ExtraLight.ttf
+        - asset: assets/fonts/Inter/Montserrat-ExtraLightItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-Italic.ttf
+        - asset: assets/fonts/Inter/Montserrat-Light.ttf
+        - asset: assets/fonts/Inter/Montserrat-LightItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-MediumItalic.ttf
+        - asset: assets/fonts/Inter/Montserrat-Medium.ttf
+        - asset: assets/fonts/Inter/Montserrat-Regular.ttf
+        - asset: assets/fonts/Inter/Montserrat-SemiBold.ttf
+        - asset: assets/fonts/Inter/Montserrat-Thin.ttf
+        - asset: assets/fonts/Inter/Montserrat-ThinItalic.ttf
