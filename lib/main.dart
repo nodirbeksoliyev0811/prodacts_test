@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:n8_default_project/ui/home/home_screen.dart';
-import 'package:n8_default_project/ui/splash/splash_screen.dart';
+import 'package:n8_default_project/ui/app_routs.dart';
 
-void main() {
+import 'local/storage_repository.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await StorageRepository.getInstance();
+
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,7 +21,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      initialRoute: RoutNames.splash ,
+      onGenerateRoute: AppRouts.generateRoute,
     );
   }
 }
