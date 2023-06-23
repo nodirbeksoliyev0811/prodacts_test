@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:n8_default_project/local/storage_repository.dart';
 import 'package:n8_default_project/ui/app_routs.dart';
 import 'package:n8_default_project/ui/home_screen.dart';
+import 'package:n8_default_project/ui/tab_box.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -171,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.black))));
                       }else {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                        return HomeScreen();
+                        return TabBox();
                       }));
                       }
                   },

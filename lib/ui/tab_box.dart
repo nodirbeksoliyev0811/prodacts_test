@@ -30,24 +30,27 @@ class _TabBoxState extends State<TabBox> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blueAccent,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index){
-          setState(() {
-            currentScreenIndex=index;
-          });
-        },
-        currentIndex: currentScreenIndex,
-        selectedItemColor: Colors.yellowAccent,
-        unselectedItemColor: Colors.white,
-        selectedIconTheme: IconThemeData(color: Colors.yellowAccent),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: ""),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart,),label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite,),label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.person,),label: ""),
-        ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.blueAccent,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index){
+            setState(() {
+              currentScreenIndex=index;
+            });
+          },
+          currentIndex: currentScreenIndex,
+          selectedItemColor: Colors.yellowAccent,
+          unselectedItemColor: Colors.white,
+          selectedIconTheme: IconThemeData(color: Colors.yellowAccent),
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home),label: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart,),label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite,),label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.person,),label: ""),
+          ],
+        ),
       ),
     );
   }
