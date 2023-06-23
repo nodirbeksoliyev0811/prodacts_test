@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:n8_default_project/ui/second_screen.dart';
 import 'package:n8_default_project/ui/home_screen.dart';
+import 'package:n8_default_project/ui/login_screen.dart';
 import 'package:n8_default_project/ui/splash_screen.dart';
 
 class RoutNames {
@@ -17,13 +17,7 @@ class AppRouts {
       case RoutNames.splash:
         return MaterialPageRoute(builder: (context) => SplashScreen());
       case RoutNames.homeScreen:
-        return MaterialPageRoute(builder: (context) => HomeScreen());
-      case RoutNames.secondScreen:
-        return MaterialPageRoute(builder: (context) {
-          Map<String,String> map = settings.arguments as Map<String,String>;
-
-          return SecondScreen(text1: map["name_text"] as String,text2: map["last_name_text"] as String,);
-        });
+        return MaterialPageRoute(builder: (context) => LoginScreen());
 
       default:
         return MaterialPageRoute(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:n8_default_project/ui/app_routs.dart';
+import 'package:n8_default_project/ui/login_screen.dart';
+import 'package:n8_default_project/ui/home_screen.dart';
+import 'package:n8_default_project/ui/tab_box.dart';
 
 import 'local/storage_repository.dart';
 
@@ -19,10 +22,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        // useMaterial3: true,
       ),
-      initialRoute: RoutNames.splash ,
-      onGenerateRoute: AppRouts.generateRoute,
+      home: TabBox(),
+      // initialRoute: RoutNames.splash ,
+      // onGenerateRoute: AppRouts.generateRoute,
     );
   }
 }
