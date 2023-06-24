@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:n8_default_project/local/storage_repository.dart';
+import 'package:n8_default_project/models/list_model.dart';
 
-class AirpodsScreen extends StatelessWidget {
-  const AirpodsScreen({super.key});
+
+class GlobalScreen extends StatelessWidget {
+  const GlobalScreen({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +13,14 @@ class AirpodsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text(
-          "Airpods",
+          productModels[index].title,
           style: TextStyle(
               fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400),
         ),
+        actions: [IconButton(onPressed: (){
+            _saveInt(index);
+            Navigator.pop(context);
+        }, icon: Icon(Icons.save))],
         centerTitle: true,
       ),
       body: Padding(
@@ -22,7 +30,7 @@ class AirpodsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                "assets/images/airpods.png",
+                productModels[index].img,
                 width: double.infinity,
                 height: MediaQuery.sizeOf(context).height * .5,
               ),
@@ -38,7 +46,7 @@ class AirpodsScreen extends StatelessWidget {
                       color: Colors.blue),
                   children: [
                     TextSpan(
-                      text: "\nAirpods",
+                      text: "\n${productModels[index].title}",
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -66,5 +74,9 @@ class AirpodsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _saveInt(int value) async{
+    await StorageRepository.putInt("index", value);
   }
 }

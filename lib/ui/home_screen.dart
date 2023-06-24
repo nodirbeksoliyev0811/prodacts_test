@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:n8_default_project/ui/login_screen.dart';
-import 'package:n8_default_project/ui/products/airpods.dart';
-import 'package:n8_default_project/ui/products/iphone.dart';
-import 'package:n8_default_project/ui/products/keyboard.dart';
-import 'package:n8_default_project/ui/products/komp.dart';
-import 'package:n8_default_project/ui/products/mac.dart';
+import 'package:n8_default_project/ui/products/global_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../local/storage_repository.dart';
+import '../models/list_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,54 +15,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isLoggined = false;
-  List<dynamic> screens = [
-    AirpodsScreen(),
-    IphoneScreen(),
-    Keyboard(),
-    Mac(),
-    Komp(),
-    Spacer()
-  ];
 
   Future<void> _init() async {
     isLoggined = StorageRepository.getBool("is_login");
   }
 
-  List<String> images = [
-    "assets/images/airpods.png",
-    "assets/images/iphone.png",
-    "assets/images/keyboard_mouse.png",
-    "assets/images/mac.png",
-    "assets/images/pc.png",
-    "assets/images/speaker.png",
-  ];
-
-  List<String> titles = [
-    "Airpods",
-    "Iphone",
-    "Klaviatura va sichqoncha",
-    "Mac",
-    "Kompyuter",
-    "Speaker",
-  ];
-
-  List<String> price = [
-    "340000.0",
-    "12340000.0",
-    "200000.0",
-    "13000000.0",
-    "100000.0",
-    "50000.0",
-  ];
-
-  List<String> skidka = [
-    "339000.0",
-    "12290000.0",
-    "199999.0",
-    "12999999.0",
-    "99999.0",
-    "49000.0",
-  ];
 
   @override
   void initState() {
@@ -91,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: GridView.builder(
-                itemCount: images.length,
+                itemCount: productModels.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.65,
@@ -108,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return screens[index];
+                          return GlobalScreen(index: index,);
                         }));
                       }
                     },
@@ -122,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.asset(
-                              images[index],
+                              productModels[index].img,
                               width: 150,
                               height: 150,
                             ),
@@ -138,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 16),
                                 children: [
                                   TextSpan(
-                                    text: titles[index],
+                                    text: productModels[index].title,
                                     style: TextStyle(
                                         color: Colors.orangeAccent,
                                         fontWeight: FontWeight.w500,
@@ -156,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 16),
                                 children: [
                                   TextSpan(
-                                    text: skidka[index],
+                                    text: productModels[index].skidka,
                                     style: TextStyle(
                                         color: Colors.redAccent,
                                         fontWeight: FontWeight.w500,
@@ -174,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 16,
                                   decoration: TextDecoration.lineThrough),
                             ),
-                            Text(price[index],
+                            Text(productModels[index].price,
                                 style: TextStyle(
                                   color: Colors.orangeAccent,
                                   fontWeight: FontWeight.w500,
