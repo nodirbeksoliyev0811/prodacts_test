@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:n8_default_project/ui/login_screen.dart';
 import 'package:n8_default_project/ui/products/global_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -15,9 +16,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isLoggined = false;
+  List<String> favorites=[];
 
   Future<void> _init() async {
     isLoggined = StorageRepository.getBool("is_login");
+    favorites=StorageRepository.getList("favorites");
   }
 
 
@@ -75,10 +78,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              productModels[index].img,
-                              width: 150,
-                              height: 150,
+                            Stack(
+                              children: [
+                                Image.asset(
+                                  productModels[index].img,
+                                  width: 150,
+                                  height: 150,
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  child: LikeButton(
+                                    onTap: (isLiked) async {
+                                      setState(() {
+
+                                      });
+                                      favorites.add(index.toString());
+                                      _saveList("favorites", favorites);
+                                      if(isLiked){
+                                         productModels[index].isLike=false;
+                                      }
+                                      else{
+                                        productModels[index].isLike=true;
+                                      };
+                                    },
+                                    likeBuilder: (isLiked) {
+                                      return Icon(
+                                        Icons.favorite,
+                                        color:
+                                        productModels[index].isLike ? Colors.redAccent : Colors.grey,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 6,
@@ -146,5 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+  _saveList(String key,List<String> list)async{
+    await StorageRepository.putList(key, list);
   }
 }

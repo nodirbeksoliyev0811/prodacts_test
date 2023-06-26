@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:n8_default_project/local/storage_repository.dart';
 
 import '../models/list_model.dart';
@@ -11,10 +12,16 @@ class MarketScreen extends StatefulWidget {
 }
 
 class _MarketScreenState extends State<MarketScreen> {
-  late int index;
+  late List<int> selectedProducts;
+  late Set<int> newList;
 
-  Future<void> _init()async{
-    index= StorageRepository.getInt("index");
+  Future<void> _init() async {
+    selectedProducts = StorageRepository.getList("productsIndexes")
+        .map((e) => int.parse(e))
+        .toList();
+    selectedProducts.toSet().toList();
+    newList=selectedProducts.toSet();
+    selectedProducts=newList.toList();
   }
 
   @override
@@ -29,68 +36,149 @@ class _MarketScreenState extends State<MarketScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
-        title: Text("Market",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.white),),
-        actions: [IconButton(onPressed: (){
-          setState(() {
-            _saveInt();
-            _init();
-          });
-        }, icon: Icon(Icons.delete,color: Colors.red,))],
+        title: Text(
+          "Market",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+        // actions: [IconButton(onPressed: (){
+        //   setState(() {
+        //     _saveInt();
+        //     _init();
+        //   });
+        // }, icon: Icon(Icons.delete,color: Colors.red,))],
       ),
-      body: index<0 ?Column():Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child:  SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                productModels[index].img,
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height * .5,
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              RichText(
-                text: TextSpan(
-                  text: "Nomi",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blue),
-                  children: [
-                    TextSpan(
-                      text: "\n${productModels[index].title}",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500),
+      body: Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                itemCount: selectedProducts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 3),
+                itemBuilder: (context, index) => Slidable(
+                  key: const ValueKey(0),
+                  endActionPane: ActionPane(
+                    extentRatio: 0.3,
+                    dragDismissible: false,
+                    motion: const ScrollMotion(),
+                    dismissible: DismissiblePane(onDismissed: () {}),
+                    children: [
+                      SlidableAction(
+                        onPressed: (v) {
+                          setState(() {
+                            selectedProducts.removeAt(index);
+                            _saveList(selectedProducts);
+                            _init();
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(15),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                    ],
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    TextSpan(
-                      text: "\nBa'tafsil",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.blue),
-                    ),
-                    TextSpan(
-                        text:
-                        "\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500))
-                  ],
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 10),
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                  productModels[selectedProducts[index]].img,
+                                  height: 100,
+                                  width: 100),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Nomi - ",
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                      children: [
+                                        TextSpan(
+                                          text: productModels[
+                                                  selectedProducts[index]]
+                                              .title,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.orange),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Narxi - ",
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                      children: [
+                                        TextSpan(
+                                          text: productModels[
+                                                  selectedProducts[index]]
+                                              .price,
+                                          style: const TextStyle(
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.red),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: productModels[selectedProducts[index]]
+                                          .skidka,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.orange),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ])),
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  _saveInt()async{
-    await StorageRepository.putInt("index", -1);
+  _saveList(List<int> list) async {
+    await StorageRepository.putList(
+        "productsIndexes", list.map((e) => e.toString()).toList());
   }
 }
